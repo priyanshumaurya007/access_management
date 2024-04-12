@@ -8,7 +8,7 @@ export class JwtMiddleware implements NestMiddleware {
 
   async use(req: Request, _: Response, next: () => void) {
     let token = req.headers['authorization'];
-    token = token.split(' ')[1];
+    token = token?.split(' ')[1];
 
     if (!token) {
       throw new UnauthorizedException('No token provided');

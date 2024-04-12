@@ -100,11 +100,18 @@ export class KeyManagementService {
     }
   }
 
-  async getUserPlanDetails(userId: string): Promise<Key[]> {
+  async getUserPlanDetails(accessKey: string): Promise<Key> {
     try {
-      return await this.keyRepository.find({ where: { userId } });
+      const key = await this.keyRepository.findOne({ where: { key: accessKey } });
+
+      if (!key) {
+        throw new NotFoundException('Key not found');
+      }
+
+      return key;
+
     } catch (error) {
-      throw new Error('Failed to get user plan details');
+      throw error;
     }
   }
 

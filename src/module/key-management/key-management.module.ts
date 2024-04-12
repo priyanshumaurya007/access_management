@@ -22,7 +22,8 @@ export class KeyManagementModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
     consumer.apply(JwtMiddleware)
     .exclude(
-      { path: 'keys/admin/login', method: RequestMethod.POST }
+      { path: 'keys/admin/login', method: RequestMethod.POST },
+      { path: 'keys/:accessKey', method: RequestMethod.GET}
     )
     .forRoutes(KeyManagementController);
   }

@@ -61,4 +61,9 @@ export class KeyManagementController {
   async listKeys(): Promise<Key[]> {
     return await this.keyManagementService.listKeys();
   }
+
+  @Get('/:accessKey')
+  async userPlan(@Param('accessKey') accessKey: string): Promise<Key> {
+    return await this.keyManagementService.getUserPlanDetails(accessKey);
+  }
 }
