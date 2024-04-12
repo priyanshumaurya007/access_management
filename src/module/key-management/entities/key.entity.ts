@@ -6,7 +6,7 @@ export class Key {
   id: number;
 
   @Column()
-  userId: string; // Change the type to string if it's alphanumeric
+  userId: string;
 
   @Column()
   key: string;

@@ -4,7 +4,6 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Key } from './entities/key.entity';
 import { UpdateKeyRequestPayload } from './dto/request-payload/update-key-request.payload'
-import { KeyManagementServiceInterface } from './interfaces/key-management.interface';
 
 @Injectable()
 export class KeyManagementService {
@@ -19,7 +18,7 @@ export class KeyManagementService {
 
       if (username === 'admin' && password === 'admin') {
         const payload = { username };
-        const token = jwt.sign(payload, 'your_secret_key', { expiresIn: '1h' });
+        const token = jwt.sign(payload, 'my_secret', { expiresIn: '1h' });
         return token;
       } else {
         throw new UnauthorizedException('Invalid credentials');
@@ -108,21 +107,6 @@ export class KeyManagementService {
       throw new Error('Failed to get user plan details');
     }
   }
-
-  // async updateKey(keyId: number, rateLimit: number, expiration: Date): Promise<Key> {
-  //   try {
-  //     const key = await this.keyRepository.findOne(keyId);
-  //     if (!key) {
-  //       throw new NotFoundException('Key not found');
-  //     }
-  //     key.rateLimit = rateLimit;
-  //     key.expiration = expiration;
-  //     return await this.keyRepository.save(key);
-  //   } catch (error) {
-  //     // Log the error or handle it as needed
-  //     throw new Error('Failed to update key');
-  //   }
-  // }
 
   private generateKey(): string {
     return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);

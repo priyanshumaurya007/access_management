@@ -11,7 +11,6 @@ export class KeyManagementController {
 
   @Post('/admin/login')
   async adminLogin(@Body() credentials: any): Promise<{ accessToken: string }> {
-    // Implement admin login logic and generate JWT token
     const accessToken = await this.keyManagementService.adminLogin(credentials);
     return { accessToken };
   }
@@ -52,7 +51,7 @@ export class KeyManagementController {
         throw new HttpException('Key not found', HttpStatus.NOT_FOUND);
       } else {
         this.logger.error(`Failed to delete key with access key ${accessKey}`);
-        this.logger.error(error); // Log the error details
+        this.logger.error(error);
         throw new HttpException('Failed to delete key', HttpStatus.INTERNAL_SERVER_ERROR);
       }
     }
