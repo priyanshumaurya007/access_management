@@ -84,13 +84,16 @@ export class KeyManagementService {
       if (UpdateKeyRequestPayload?.rateLimit !== undefined) {
         key.rateLimit = UpdateKeyRequestPayload?.rateLimit;
       }
-      
+
       if (UpdateKeyRequestPayload?.expirationMinutes !== undefined) {
         const expiration = new Date(Date.now() + UpdateKeyRequestPayload?.expirationMinutes * 60 * 1000);
         key.expiration = expiration;
       }
 
-      return await this.keyRepository.save(key);
+      const updatedKey = await this.keyRepository.save(key);
+      updatedKey.expiration = this.convertToIST(updatedKey.expiration);
+  
+      return updatedKey;
     } catch (error) {
       throw error;
     }
