@@ -15,10 +15,13 @@ export class KeyManagementService {
   async adminLogin(credentials: any): Promise<string> {
     try {
       const { username, password } = credentials;
+      const secretKey = process.env.ACCESS_TOKEN_SECRET_KEY;
+      const adminUsername = process.env.ADMIN_USERNAME;
+      const adminPassword = process.env.ADMIN_PASSWORD;
 
-      if (username === 'admin' && password === 'admin') {
+      if (username === adminUsername && password === adminPassword) {
         const payload = { username };
-        const token = jwt.sign(payload, 'my_secret', { expiresIn: '1h' });
+        const token = jwt.sign(payload, secretKey, { expiresIn: '1h' });
         return token;
       } else {
         throw new UnauthorizedException('Invalid credentials');
@@ -81,6 +84,7 @@ export class KeyManagementService {
       if (UpdateKeyRequestPayload?.rateLimit !== undefined) {
         key.rateLimit = UpdateKeyRequestPayload?.rateLimit;
       }
+      
       if (UpdateKeyRequestPayload?.expirationMinutes !== undefined) {
         const expiration = new Date(Date.now() + UpdateKeyRequestPayload?.expirationMinutes * 60 * 1000);
         key.expiration = expiration;

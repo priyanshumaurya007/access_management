@@ -9,7 +9,7 @@ import { JwtMiddleware } from './middleware/auth.middleware';
 @Module({
   imports: [
       JwtModule.register({
-      secret: 'my_secret',
+      secret: process.env.ACCESS_TOKEN_SECRET_KEY,
       signOptions: { expiresIn: '1h' },
     }),
       TypeOrmModule.forFeature([Key])
